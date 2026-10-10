@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYCO KEY STORE</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 20px;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.8s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1 {
+    color: #00e5ff;
+    font-size: 26px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
+  }
+  .label {
+    color: #aaa;
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .key-box {
+    background: #000;
+    border: 2px solid #00e5ff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+  }
+  .key-text {
+    color: #00ff88;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+  }
+
+  /* Copy button - key ke niche */
+  .copy-btn {
+    background: linear-gradient(90deg, #00e5ff, #0077ff);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  .copy-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.7);
+  }
+  .copy-btn.copied {
+    background: linear-gradient(90deg, #00ff88, #00b36b);
+  }
+
+  .password-box {
+    background: #000;
+    border: 2px solid #ff006e;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
+  }
+  .password-text {
+    color: #ffbe0b;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-family: 'Courier New', monospace;
+  }
+  .footer {
+    color: #666;
+    font-size: 12px;
+    margin-top: 15px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>SYCO KEY STORE</h1>
+
+  <div class="label">YOUR KEY</div>
+  <div class="key-box">
+    <div class="key-text" id="keyText">PAPA-6h-trial</div>
+  </div>
+
+  <!-- Copy Button — Key ke niche -->
+  <button class="copy-btn" id="copyBtn" onclick="copyKey()">📋 COPY KEY</button>
+
+  <div class="label">PASSWORD</div>
+  <div class="password-box">
+    <div class="password-text" id="passText">PAPA-6h-trial</div>
+  </div>
+
+  <div class="footer">© SYCO KEY STORE</div>
+</div>
+
+<script>
+function copyKey() {
+  const key = document.getElementById('keyText').innerText.trim();
+  const btn = document.getElementById('copyBtn');
+
+  // Modern clipboard API
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(key).then(showCopied).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+
+  function fallbackCopy() {
+    // Purane browsers ke liye
+    const temp = document.createElement('textarea');
+    temp.value = key;
+    temp.style.position = 'fixed';
+    temp.style.opacity = '0';
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand('copy'); showCopied(); } catch(e) { alert('Copy failed!'); }
+    document.body.removeChild(temp);
+  }
+
+  function showCopied() {
+    btn.innerText = '✅ COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerText = '📋 COPY KEY';
+      btn.classList.remove('copied');
+    }, 1500);
+  }
+}
+</script>
+
+</body>
+</html>
